@@ -1,4 +1,4 @@
-import { validate } from 'class-validator';
+import { validateOrReject } from 'class-validator';
 
 import { User } from '../src/models/users';
 
@@ -15,7 +15,7 @@ describe('user validation', () => {
       },
     );
 
-    return validate(user)
+    return validateOrReject(user)
       .then(() => {
         throw Error('Validations should have failed, but they passed');
       })

@@ -1,4 +1,4 @@
-import { IsObject, IsString } from 'class-validator';
+import { IsObject, IsOptional, IsString } from 'class-validator';
 import { Ref } from 'typesaurus';
 
 import { FirestoreDataConverter } from '../utils';
@@ -14,8 +14,9 @@ export interface ITestObject {
   displayName: string | null;
 }
 
-export class TestObject implements ITestObject, FirestoreDataConverter<TestObject, ITestObject> {
-
+export class TestObject
+  implements ITestObject, FirestoreDataConverter<TestObject, ITestObject> {
+  @IsOptional()
   @IsObject()
   private _testRef: Ref<TestObject> | null;
 
@@ -39,11 +40,8 @@ export class TestObject implements ITestObject, FirestoreDataConverter<TestObjec
   }
 
   static fromFirestore = (data: ITestObject): TestObject => {
-    return new TestObject(
-      data.testRef,
-      data.displayName,
-    )
-  }
+    return new TestObject(data.testRef, data.displayName);
+  };
 
   fromFirestore = TestObject.fromFirestore;
 
@@ -54,4 +52,3 @@ export class TestObject implements ITestObject, FirestoreDataConverter<TestObjec
     };
   }
 }
-
