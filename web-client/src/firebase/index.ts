@@ -1,5 +1,8 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
+import { testCollection, TestObject } from '@reach4help/model/lib/test';
+import { add } from 'typesaurus';
 
 const config = {
   development: {
@@ -38,5 +41,14 @@ firebase.initializeApp(config.development);
 
 export const firebaseAuth = firebase.auth();
 export const firestore = firebase.firestore();
+
+const test = new TestObject(null, 'i am a test');
+console.log('adding');
+add(testCollection, test.toFirestore(test)).then(() => {
+  console.log('success');
+}).catch(err => {
+  console.error(err);
+});
+
 
 export default firebase;
